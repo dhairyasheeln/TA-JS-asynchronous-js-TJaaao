@@ -8,6 +8,10 @@ setTimeout(() => console.log('Second'), 0);
 console.log('Third');
 ```
 
+First
+Third
+Second
+
 2.
 
 ```js
@@ -20,6 +24,11 @@ setTimeout(() => console.log('Third'), 0); // execute this code after 1000 ms
 console.log('Third');
 ```
 
+First
+Third
+Third
+Second
+
 3.
 
 ```js
@@ -31,6 +40,11 @@ setTimeout(secondCall, 1000); // execute this code after 1000 ms
 setTimeout(() => console.log('Third'), 0);
 console.log('Fourth');
 ```
+
+First
+Fourth
+Third
+Second
 
 4.
 

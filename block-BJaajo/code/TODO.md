@@ -58,6 +58,11 @@ setTimeout(() => console.log('Third'), 0);
 console.log('Fourth');
 ```
 
+First
+Fourth
+Third
+Second
+
 5. What will be the output of the code below and why? Also write the timing of the output starting with 0 ms.
 
 ```js
@@ -76,11 +81,21 @@ runWhileLoopForNSeconds(3);
 console.log('Third');
 ```
 
+0ms First
+3000ms Third
+3000ms Second
+
 6. Convert the synchronous code given below into asynchronous. If you execute this code it will print one, two and three. Change the code in such a way that it should print `one`, `three` and `two`. You are not allowed to move the code up and down.
 
 ```js
 console.log('one');
 console.log('two');
+console.log('three');
+
+console.log('one');
+setTimeout(() => {
+  console.log('two');
+}, 0);
 console.log('three');
 ```
 
@@ -90,13 +105,21 @@ console.log('three');
 console.log('one');
 console.log('two');
 console.log('three');
+
+console.log('one');
+setTimeout(() => {
+  console.log('two');
+}, 0);
+console.log('three');
 ```
 
 8. Write a function named `asyncForEach` that is similar to `forEach`. But `asyncForEach` is asynchronous in nature rather than synchronous.
 
 ```js
-funciton asyncForEach(){
-  //
+function asyncForEach(arr,cb){
+  for(let i=0;i<arr.length;i++>){
+    setTimeout(()=>{cb(arr[i])},0);
+  }
 }
 //  Output of the function below should be
 // one

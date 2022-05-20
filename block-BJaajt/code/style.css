@@ -118,6 +118,50 @@ input::placeholder{
 }
 
 
+.title{
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+ul{
+    margin-top: 20px;
+}
+
+li{
+    display: inline-block;
+    margin:0 10px;
+}
+li img{
+    width: 7rem;
+    height:7rem;
+    border-radius: 50%;
+}
+
+
+
+
+
+/*Cat*/
+
+.cat h3{
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--black);
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+}
+
+.CatBtn{
+    font-size:2rem;
+    padding: 1rem 2rem;
+    color: orange;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+
+
 
 
 

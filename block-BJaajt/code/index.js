@@ -5,67 +5,82 @@ let username=document.querySelector('.username');
 let userId=document.querySelector('.userId');
 let input=document.querySelector('.search');
 
-let followerSection=document.querySelector('.followers');
+let followerUL=document.querySelector('.followers');
+let followingUL=document.querySelector('.following');
+
 
 
 /*Handle change*/
 
 let userData;
-let xhr=new XMLHttpRequest();
-let xhrFollowers=new XMLHttpRequest();
-let xhrFollowing=new XMLHttpRequest();
-let followers=[];
-let following=[];
 
-input.addEventListener('keyup',handleChange);
 
-function handleChange(event){
-    if(event.keyCode===13){
-        /*User Details*/
-        let user=event.target.value;
-        xhr.open('GET',`https://api.github.com/users/${user}`);
-        xhr.onload=function(){
-            userData=JSON.parse(xhr.response); 
-            createUI(userData);
-            event.innerText="";
-            event.target.value="";
-                };
-        xhr.send();
+input.addEventListener('keydown',handleInput);
 
-        // /*Followers*/
-        // xhrFollowers.open('GET',`https://api.github.com/users/${user}/followers`);
-        // xhrFollowers.onload=function(){
-        //     followers=JSON.parse(xhrFollowers.response); 
-        //     createUI(userData,followers);
-        // };
-        // xhrFollowers.send();
-
-        // /*Following*/
-        // xhrFollowing.open('GET',`https://api.github.com/users/${user}/following`);
-        // xhrFollowing.onload=function(){
-        //     following=JSON.parse(xhrFollowing.response); 
-        // };
-        // xhrFollowing.send();
-        // event.target.value="";
+function handleInput(event){
+    if(event.keyCode===13 && input.value){
+        let url="https://api.github.com/users/";
+        let user=input.value;
+        fetch(url+user,handleDisplay);
+        input.value="";
     }   
 }
 
-function createUI(data){
-    console.log(data);
-    profilePic.src=data.avatar_url;
-    username.innerText=data.name;
-    userId.innerText=data.login;
 
-    // dataFollowers.forEach(element => {
-    //     let img=document.createElement('img');
-    //     img.src=element.avatar_url;
-    //     followerSection.append(img);
+function fetch(url,successHandler){
+    let xhr=new XMLHttpRequest();
+    xhr.open('GET',url);
+    xhr.onload=()=>successHandler(JSON.parse(xhr.response));
+    xhr.onerror=function(){
+        console.error('Something went Wrong!');
+    };
+
+    xhr.send();
+}
+
+function displayExtraInfo(url,rootElm)
+{      
+    rootElm.innerHTML="";
+    fetch(url,function(followerList){
+        let topFive=followerList.slice(0,5);
+        topFive.forEach(info=>{
+            let li=document.createElement('li');
+            let img=document.createElement('img');
+            img.src=info.avatar_url;
+            img.alt=info.name;
+            li.append(img);
+            rootElm.append(li);
+        })
         
-    // });
+    });
+
+}
+
+function handleDisplay(data){
+    profilePic.src=data.avatar_url;
+    profilePic.alt=data.name;
+    username.innerText=data.name;
+    userId.innerText=`@${data.login}`;
+    displayExtraInfo(`https://api.github.com/users/${data.login}/followers`,followerUL);
+    displayExtraInfo(`https://api.github.com/users/${data.login}/following`,followingUL);
+
 }
 
 
-/*XML Request*/
+
+let catBtn=document.querySelector('.cat button');
+let catsImage=document.querySelector('.cat img');
+
+catBtn.addEventListener('click',handleClick);
+
+
+function handleClick(event){
+    fetch(`https://api.thecatapi.com/v1/images/search?limit=1&size=full`,function (catInfo){
+        catsImage.src=catInfo[0].url;
+    });
+}
+
+
 
 
 

@@ -5,38 +5,39 @@ const root=document.querySelector('.images');
 const search=document.getElementById('search');
 
 
-function fetch(url,successHandler){
-    let xhr=new XMLHttpRequest();
-    xhr.open('GET',url);
-    xhr.onload=function(){
-        successHandler(JSON.parse(xhr.response));
-    };
-    xhr.onerror=function(){
-        console.error('Something went wrong!');
-    };
-    xhr.send();
-}
-
-function displayImages(images){
-    root.innerHTML="";
-    images.forEach(image => {
-        let li=document.createElement('li');
-        let img=document.createElement('img');
-        img.src=image.urls.thumb;
-        li.append(img);
-        root.append(li);
-    });
-}
-
-fetch(url,displayImages);
-
 search.addEventListener('keydown',handleSearch);
 
 function handleSearch(event){
-    if(event.keyCode==13 && search.value){
-        fetch(searchURL(search.value),function(searchResult){
-                displayImages(searchResult.results);
+    if(event.keyCode===13){
+        let word=search.value;
+        fetch(searchURL(word),function(searchData){
+            displayImage(searchData.results);
         });
-        search.value="";
+        
     }
 }
+
+
+function displayImage(data){
+    root.innerHTML="";
+    search.value="";
+        data.forEach(image => {
+            let img=document.createElement('img');
+            img.src=image.urls.small;
+            let li=document.createElement('li');
+            li.append(img);
+            root.append(li);
+        });
+    }
+
+function fetch(url,successHandler){
+    let xhr=new XMLHttpRequest();
+    xhr.open('GET',url);
+    xhr.onload=function(){successHandler(JSON.parse(xhr.response))};
+    xhr.onerror=function(){
+        console.error('Something went wrong!!!');
+    }
+    xhr.send();
+}
+
+fetch(url,displayImage);

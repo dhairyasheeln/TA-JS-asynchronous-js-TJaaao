@@ -16,7 +16,7 @@ let promise=new Promise((resolve,reject)=>reject('Rejected Promise')).catch(erro
 
 ```js
 // Your code
-let promise=new Promise((resolve,reject)=>setTimeout(()=>reject('Rejected Promise!'),3000)).catch(error=>console.log(error)).finally(console.log('Promise Settled!'));
+let promise=new Promise((resolve,reject)=>setTimeout(()=>reject('Rejected Promise!'),3000)).catch(error=>console.log(error)).finally(()=>console.log('Promise Settled!'));
 
 
 ```
@@ -64,6 +64,10 @@ let pr=new Promise((resolve,reject)=>{
 })
 .then(value=>value+10)
 .then(value=>value+100)
+.then(value=>{if(value>100){
+    throw new Error('Value greater than 100');
+}
+})
 .catch(error=>console.error(error));
 ```
 
@@ -78,12 +82,16 @@ let pr=new Promise((resolve,reject)=>{
 ```js
 // Your code
 let pr=new Promise((resolve,reject)=>{
-    let temp=new Array();
-    temp.push('A');
-    resolve(temp)
+    resolve(['A']);
 })
-.then(value=>typeof(value));
-.catch(error=>console.error(error));
+.then(value=>value.concat('B'))
+.then(value=>{
+    return value.reduce((acc,cv,index)=>{
+        acc[index]=cv;
+        return acc;
+    },{})
+})
+.then(console.log);
 ```
 
 8. Do the following:
@@ -95,6 +103,21 @@ let pr=new Promise((resolve,reject)=>{
 
 ```js
 // Your code
+let first=new Promise((resolve,reject)=>{
+    resolve(1);
+})
+.then((value)=>{
+    console.log(value);
+    return 2;
+    })
+.then((value)=>{
+    console.log(value);
+    return 3;
+})
+.then((value)=>{
+    console.log(value);
+    return 4;
+})
 ```
 
 9. Do the following:
@@ -106,6 +129,21 @@ let pr=new Promise((resolve,reject)=>{
 
 ```js
 // Your code
+let first=new Promise((resolve,reject)=>{
+    resolve(1);
+});
+first.then((value)=>{
+    console.log(value);
+    return 2;
+    })
+first.then((value)=>{
+    console.log(value);
+    return 3;
+})
+first.then((value)=>{
+    console.log(value);
+    return 4;
+});
 ```
 
 10. Try to understand the difference between the problem 8 and 9. Write your observation.
@@ -119,4 +157,15 @@ let pr=new Promise((resolve,reject)=>{
 
 ```js
 // Your code
+let promise=new Promise((resolve,reject)=>{
+    resolve('John');
+})
+.then((value)=>return Promise.resolve('Arya'))
+.then((value)=>{
+    console.log(value);
+    return new Promise((res,rej)=>{
+        setTimeout(()=>res('Bran'),2000);
+    })
+    })
+.then((value)=>console.log(value));
 ```

@@ -2,18 +2,23 @@
 
 ```js
 // Your code
+let promise=new Promise((resolve,reject)=>setTimeout(()=>resolve('Promise Resolved!'),3000)).then(value=>console.log(value));
 ```
 
 2. Create another promise. Now have it reject with a value of `Rejected Promise!` without using `setTimeout`. Print the contents of the promise after it has been rejected by passing console.log to `.catch`
 
 ```js
 // Your code
+let promise=new Promise((resolve,reject)=>reject('Rejected Promise')).catch(error=>console.log(error));
 ```
 
 3. Create another promise. Now have it reject with a value of `Rejected Promise!` without using `setTimeout`. Print the contents of the promise after it has been rejected by passing console.log to `.catch` and also use `.finally` to log message `Promise Settled!`.
 
 ```js
 // Your code
+let promise=new Promise((resolve,reject)=>setTimeout(()=>reject('Rejected Promise!'),3000)).catch(error=>console.log(error)).finally(console.log('Promise Settled!'));
+
+
 ```
 
 4. What will be the output of the code below.
@@ -29,11 +34,18 @@ Promise.resolve().then(() => console.log('C'));
 
 console.log('D');
 ```
+Output: A D C B
 
 5. Write a function named `wait` that accepts `time` in ms returns a promise. The promise gets resolved after given time.
 
 ```js
 // Your code
+function wait(time){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>resolve('Resolved!'),time);
+    })
+}
+wait(3000);
 ```
 
 6. Do the following:
@@ -47,6 +59,12 @@ console.log('D');
 
 ```js
 // Your code
+let pr=new Promise((resolve,reject)=>{
+    resolve(21);
+})
+.then(value=>value+10)
+.then(value=>value+100)
+.catch(error=>console.error(error));
 ```
 
 7. Do the following:
@@ -59,6 +77,13 @@ console.log('D');
 
 ```js
 // Your code
+let pr=new Promise((resolve,reject)=>{
+    let temp=new Array();
+    temp.push('A');
+    resolve(temp)
+})
+.then(value=>typeof(value));
+.catch(error=>console.error(error));
 ```
 
 8. Do the following:

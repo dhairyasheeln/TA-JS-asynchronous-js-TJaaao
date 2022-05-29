@@ -3,21 +3,45 @@ const select=document.getElementById('news');
 
 let root=document.querySelector('.parent');
 
+let allNews=[];
+
+
 
 
 select.addEventListener('change',handleSelect);
 
-function handleSelect(event){
-    let response=fetch('https://api.spaceflightnewsapi.net/v3/articles?_limit=30')
-                .then((res)=>res.json())
-                .then(res=>createUI(res.filter(element=>element.newsSite===select.value)));   
-}
 
 let response=fetch('https://api.spaceflightnewsapi.net/v3/articles?_limit=30')
                 .then((res)=>res.json())
-                .then(res=>createUI(res));  
+                .then(res=>{
+                    allNews=res;
+                    createUI(res)
+                    let allSources=Array.from(new Set(res.map((n)=>n.newsSite))); 
+                    displayOptions(allSources);
+                    
+                }); 
 
 
+function displayOptions(options){
+    options.forEach(source=>{
+        let option=document.createElement('option');
+        option.innerText=source;
+        option.value=source;
+        select.append(option);
+    })
+}
+
+
+function handleSelect(event){ 
+    let filteredNews=[];
+    if(select.value ==='source'){
+        filteredNews=allNews;
+    }
+    else{
+        filteredNews=allNews.filter(news=>news.newsSite===select.value);
+    }
+    createUI(filteredNews);
+}
 
 function createUI(data){
     root.innerHTML="";
@@ -33,6 +57,7 @@ function createUI(data){
         let image=document.createElement('img');
         image.classList.add('newsImage');
         image.src=element.imageUrl;
+        image.alt=element.title;
         divImg.append(image);
 
         let div=document.createElement('div');

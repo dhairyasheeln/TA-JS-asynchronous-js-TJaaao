@@ -3,7 +3,24 @@ const select=document.getElementById('news');
 
 let root=document.querySelector('.parent');
 
+let main=document.querySelector('.mainSection');
+let error=document.querySelector('.error');
+
+console.log(main,error);
+
 let allNews=[];
+
+function handleSpiner(status=false){
+    if(status){
+        root.innerHTML=`<div class="spinner"><div class="donut"></div></div>`;
+    }
+}
+
+function handleError(message='Something went Wrong'){
+    main.style.display='none';
+    error.style.display='block';
+    error.innerText=message;
+}
 
 
 
@@ -11,25 +28,30 @@ let allNews=[];
 select.addEventListener('change',handleSelect);
 
 
-let response=fetch('https://api.spaceflightnewsapi.net/v3/articles?_limit=30')
+function init(){
+
+    handleSpiner(true);
+    
+    fetch('https://api.spaceflightnewsapi.net/v3/articles?_limit=30')
                 .then((res)=>{
                     if(!res.ok){
-                        throw new Error('Something went wrong!!!:Status Code:'+res.status);
+                        throw new Error('Response not okay!!!:Status Code:'+res.status);
                     }
                     return res.json();
                 })
                 .then(res=>{
+
+                    handleSpiner();
+
                     allNews=res;
-                    createUI(res)
+                    createUI(res);
                     let allSources=Array.from(new Set(res.map((n)=>n.newsSite))); 
                     displayOptions(allSources);
                     
                 })
-                .catch(error=>{
-                    root.style.color='Red';
-                    root.innerText='Check your internet connection'; 
-                })
-                .finally();
+                .catch(error=>handleError(error)); 
+}
+
 
 function displayOptions(options){
     if(Array.isArray(options)){
@@ -53,6 +75,8 @@ function handleSelect(event){
     }
     createUI(filteredNews);
 }
+
+
 
 function createUI(data){
     root.innerHTML="";
@@ -93,6 +117,14 @@ function createUI(data){
         root.append(li);
 
     });
+}
+
+
+if(navigator.onLine){
+    init();
+}
+else{
+    handleError('Check your Internet connection');
 }
 
 

@@ -1,0 +1,152 @@
+/*CSS Resets*/
+
+/* http://meyerweb.com/eric/tools/css/reset/ */
+/* v1.0 | 20080212 */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*Container*/
+.container{
+    max-width: 850px;
+    margin:0 auto;
+    padding:0 32px;
+}
+
+
+/*Colors*/
+:root{
+    --black:#000000;
+    --white:#ffffff;
+    --brown:#F1DEB8;
+}
+
+.flex{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:center;
+    flex-wrap: wrap;
+}
+
+
+/*Generalized*/
+
+body{
+    line-height: 1.5;
+    font-size: 16px;
+    font-family: 'Roboto Flex', sans-serif;
+    background-color: var(--brown);
+}
+
+*,
+*::before,
+*::after{
+    box-sizing: border-box;
+}
+
+/*Header*/
+
+.header{
+    background-color: var(--black);
+    color: var(--white);
+    padding: 16px;
+}
+
+.heading{
+    font-weight: 400;
+    font-size: 32px;
+    text-align: center;
+}
+
+/*Display Section*/
+
+ul{
+    padding:2rem 0;
+}
+
+.book{
+    flex:0  1 48%;
+    border: 1px dashed var(--black);
+    padding: 2rem;
+}
+
+h3{
+    font-size:1.5rem;
+}
+
+a{
+    display: inline-block;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    color: var(--white);
+    background-color: var(--black);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+/*Root hidden*/
+
+.hidden{
+    display:none;
+}
+
+/*Character Display Section*/
+.characterHeading{
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.character{
+    border: 1px solid var(--black);
+    padding:0.5rem 1rem;
+    margin-top: 1rem;
+}
